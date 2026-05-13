@@ -1,0 +1,146 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css"><style>
+  body{margin:0;padding:20px;font-family:var(--font-jp);background:var(--gray-100);display:flex;align-items:center;justify-content:center;min-height:100vh}
+  .grid{display:flex;gap:18px;max-width:660px}
+
+  .card{background:transparent;width:180px;cursor:pointer}
+  .img-wrap{position:relative;width:100%;aspect-ratio:1/1;background:var(--warm-cream);border-radius:8px;overflow:hidden}
+  .off{position:absolute;top:5px;left:5px;background:var(--sale-red);color:#fff;font:700 10px var(--font-latin);padding:2px 6px;border-radius:2px;letter-spacing:.02em;z-index:2}
+  .body{padding-top:8px}
+  .name{font-size:13px;line-height:1.5;color:var(--gray-1000);margin:0 0 2px}
+  .stars{display:flex;align-items:center;gap:4px;color:var(--gold-500);font-size:11px;margin:0 0 4px}
+  .stars span{color:var(--gray-700)}
+  .price{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
+  .now{color:var(--sale-red-strong);font-family:var(--font-latin);font-weight:700;font-size:16px}
+  .was{color:var(--gray-700);font-size:11px;text-decoration:line-through;font-family:var(--font-latin)}
+
+  /* ─── SKU variant strip ───
+     Default shows 4.5 thumbs so the user sees there are more options to scroll.
+     180px card − 4 gaps of 4px = 164px ÷ 4.5 ≈ 36px per thumb. */
+  .sku-strip{
+    display:flex; gap:4px;
+    overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; padding-bottom:2px;
+    mask-image:linear-gradient(to right, #000 0, #000 calc(100% - 12px), transparent 100%);
+    -webkit-mask-image:linear-gradient(to right, #000 0, #000 calc(100% - 12px), transparent 100%);
+  }
+  .sku-strip::-webkit-scrollbar{display:none}
+  .sku{
+    flex:0 0 36px; width:36px; aspect-ratio:1/1;
+    border:1px solid var(--gray-300);
+    border-radius:var(--radius-sm);
+    background:var(--white);
+    overflow:hidden; position:relative;
+    scroll-snap-align:start;
+    transition:border-color .15s;
+    box-sizing:border-box;
+  }
+  .sku:hover{border-color:var(--gray-600)}
+  .sku.active{border-color:var(--brand-700);border-width:1.5px}
+
+  /* Shared tint surface — used by both the hero image and the thumb image. */
+  .tint{
+    width:100%; height:100%;
+    background-size:cover; background-position:center;
+    background-color:var(--warm-cream);
+    transition:filter .2s, background-color .2s;
+  }
+
+  /* Color tint variants — applied to .img-wrap (hero) AND .sku (thumb) */
+  .v-ivory  > .tint, .v-ivory  .tint { background-color:#EFE4D2 }
+  .v-gray   > .tint, .v-gray   .tint { background-color:#C5C7C7; filter:saturate(0) }
+  .v-mocha  > .tint, .v-mocha  .tint { background-color:#9A7A5B; filter:saturate(.55) brightness(.88) }
+  .v-navy   > .tint, .v-navy   .tint { background-color:#3A4A66; filter:hue-rotate(190deg) saturate(.7) brightness(.85) }
+  .v-olive  > .tint, .v-olive  .tint { background-color:#7D8A5F; filter:hue-rotate(60deg) saturate(.55) }
+  .v-cream  > .tint, .v-cream  .tint { background-color:#F5ECDA }
+  .v-walnut > .tint, .v-walnut .tint { background-color:#5A3E2B; filter:saturate(.6) brightness(.72) }
+  .v-black  > .tint, .v-black  .tint { filter:brightness(.4) saturate(.3) }
+  .v-rust   > .tint, .v-rust   .tint { background-color:#B36A4A; filter:hue-rotate(-15deg) saturate(.7) brightness(.9) }
+</style></head><body class="ds-preview"><div class="grid">
+
+  <!-- Card 1: sofa, 7 colorways -->
+  <div class="card">
+    <div class="img-wrap v-ivory" data-src="../assets/hero-living.png">
+      <div class="tint" style="background-image:url(../assets/hero-living.png)"></div>
+      <span class="off">-28%</span>
+    </div>
+    <div class="body">
+      <div class="name">コンパクト 2人掛けソファー</div>
+      <div class="stars">★★★★★ <span>(384)</span></div>
+      <div class="price"><span class="now">¥34,800</span><span class="was">¥48,000</span></div>
+      <div class="sku-strip" role="listbox" aria-label="カラーバリエーション">
+        <div class="sku v-ivory active" title="アイボリー"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+        <div class="sku v-gray"  title="グレー"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+        <div class="sku v-mocha" title="モカ"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+        <div class="sku v-navy"  title="ネイビー"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+        <div class="sku v-olive" title="オリーブ"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+        <div class="sku v-rust"  title="ラスト"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+        <div class="sku v-black" title="ブラック"><div class="tint" style="background-image:url(../assets/hero-living.png)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: bed, 5 finishes -->
+  <div class="card">
+    <div class="img-wrap v-cream" data-src="../assets/hero-bedroom.png">
+      <div class="tint" style="background-image:url(../assets/hero-bedroom.png)"></div>
+    </div>
+    <div class="body">
+      <div class="name">木製ベッドフレーム シングル</div>
+      <div class="stars">★★★★☆ <span>(112)</span></div>
+      <div class="price"><span class="now">¥29,900</span></div>
+      <div class="sku-strip" role="listbox" aria-label="サイズ・カラー">
+        <div class="sku v-cream active" title="ナチュラル"><div class="tint" style="background-image:url(../assets/hero-bedroom.png)"></div></div>
+        <div class="sku v-mocha"  title="ライトオーク"><div class="tint" style="background-image:url(../assets/hero-bedroom.png)"></div></div>
+        <div class="sku v-walnut" title="ウォルナット"><div class="tint" style="background-image:url(../assets/hero-bedroom.png)"></div></div>
+        <div class="sku v-gray"   title="グレー"><div class="tint" style="background-image:url(../assets/hero-bedroom.png)"></div></div>
+        <div class="sku v-black"  title="ブラック"><div class="tint" style="background-image:url(../assets/hero-bedroom.png)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: storage, 6 finishes -->
+  <div class="card">
+    <div class="img-wrap v-cream" data-src="../assets/hero-storage.png">
+      <div class="tint" style="background-image:url(../assets/hero-storage.png)"></div>
+      <span class="off">-24%</span>
+    </div>
+    <div class="body">
+      <div class="name">5段オープン収納ラック</div>
+      <div class="stars">★★★★★ <span>(57)</span></div>
+      <div class="price"><span class="now">¥12,800</span><span class="was">¥16,800</span></div>
+      <div class="sku-strip" role="listbox" aria-label="カラーバリエーション">
+        <div class="sku v-cream active" title="ナチュラル"><div class="tint" style="background-image:url(../assets/hero-storage.png)"></div></div>
+        <div class="sku v-mocha"  title="オーク"><div class="tint" style="background-image:url(../assets/hero-storage.png)"></div></div>
+        <div class="sku v-walnut" title="ウォルナット"><div class="tint" style="background-image:url(../assets/hero-storage.png)"></div></div>
+        <div class="sku v-gray"   title="グレー"><div class="tint" style="background-image:url(../assets/hero-storage.png)"></div></div>
+        <div class="sku v-navy"   title="ネイビー"><div class="tint" style="background-image:url(../assets/hero-storage.png)"></div></div>
+        <div class="sku v-black"  title="ブラック"><div class="tint" style="background-image:url(../assets/hero-storage.png)"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Selecting a SKU thumb: mark active + sync hero image tint to the same variant.
+  const VARIANT_RE = /^v-/;
+  document.querySelectorAll('.card').forEach(card => {
+    const hero = card.querySelector('.img-wrap');
+    const strip = card.querySelector('.sku-strip');
+    if (!hero || !strip) return;
+    strip.addEventListener('click', e => {
+      const t = e.target.closest('.sku'); if(!t) return;
+      // toggle active state
+      strip.querySelectorAll('.sku').forEach(s => s.classList.remove('active'));
+      t.classList.add('active');
+      // copy variant class to hero
+      const variant = [...t.classList].find(c => VARIANT_RE.test(c));
+      if (!variant) return;
+      [...hero.classList].forEach(c => { if (VARIANT_RE.test(c)) hero.classList.remove(c); });
+      hero.classList.add(variant);
+    });
+  });
+</script>
+</body></html>

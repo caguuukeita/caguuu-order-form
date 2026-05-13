@@ -1,0 +1,280 @@
+/* CAGUUU Design System — Color & Type tokens
+   Source of truth: extracted from CAGUUU 独立站 Figma (Design-Library/Mobile-Color,
+   Mobile-Typography, color section). Primary brand is deep green #1F6862 with a
+   teal-leaning secondary #399E96 (the screen-time accent) and a warm cream
+   neutral #F3EADB. The system is bilingual: Japanese first, then Latin/numerals. */
+
+/* ─── Brand fonts (self-hosted, .otf) ─────────────────────────────────────
+   Japanese: LINE Seed JP — Th 300 / Rg 400 / Bd 700 / Eb 800
+   Latin:    ITC Avant Garde Gothic — ExtraLight 200 / Book 400 / Md 500 /
+             Demi 600 / Bold 700
+   ─────────────────────────────────────────────────────────────────────── */
+@font-face { font-family: "LINE Seed JP"; font-weight: 300; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/LINESeedJP_OTF_Th.otf") format("opentype"); }
+@font-face { font-family: "LINE Seed JP"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/LINESeedJP_OTF_Rg.otf") format("opentype"); }
+@font-face { font-family: "LINE Seed JP"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/LINESeedJP_OTF_Bd.otf") format("opentype"); }
+@font-face { font-family: "LINE Seed JP"; font-weight: 800; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/LINESeedJP_OTF_Eb.otf") format("opentype"); }
+
+@font-face { font-family: "ITC Avant Garde Gothic"; font-weight: 200; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/ITCAvantGardeStd-Extra_Light.otf") format("opentype"); }
+@font-face { font-family: "ITC Avant Garde Gothic"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/ITC_Avant_Garde_Gothic_Std_Book.otf") format("opentype"); }
+@font-face { font-family: "ITC Avant Garde Gothic"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/ITCAvantGardeStd-md.otf") format("opentype"); }
+@font-face { font-family: "ITC Avant Garde Gothic"; font-weight: 600; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/ITC_Avant_Garde_Gothic_Std_Demi.otf") format("opentype"); }
+@font-face { font-family: "ITC Avant Garde Gothic"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/ITCAvantGardeStd-Bold.otf") format("opentype"); }
+
+:root {
+  /* ─────── Brand greens ─────── */
+  --brand-900: #0F3E3A;       /* deepest accent, used as text on cream  */
+  --brand-800: #1B4D48;       /* secondary deep, used in CTAs / hover   */
+  --brand-700: #1F6862;       /* PRIMARY — the CAGUUU green             */
+  --brand-600: #2E7677;       /* gradient start                          */
+  --brand-500: #399E96;       /* secondary accent / large surface fills */
+  --brand-400: #6FBDB6;
+  --brand-300: #A8D5C9;
+  --brand-200: #C0DED8;
+  --brand-100: #E9F7F7;       /* tinted background, badge bg            */
+  --brand-050: #EBF7F5;       /* the lightest tint                      */
+
+  /* ─────── Neutrals (grayscale) ─────── */
+  --gray-1000: #232424;       /* primary body text  (10314× in Figma)   */
+  --gray-900:  #333333;
+  --gray-800:  #5F6060;       /* secondary text                          */
+  --gray-700:  #929494;       /* tertiary / placeholder                  */
+  --gray-600:  #A4A6A6;
+  --gray-500:  #B6B8B7;
+  --gray-400:  #D7D9D9;       /* borders                                 */
+  --gray-300:  #E9EBEB;       /* hairlines, dividers                     */
+  --gray-200:  #F2F5F5;       /* surface alt                             */
+  --gray-100:  #F7FAF9;       /* page bg (Gray-1)                        */
+  --white:     #FFFFFF;
+  --black:     #000000;
+
+  /* Cover scrims (used over imagery, Figma "Cover-45/65/80")  */
+  --cover-45: rgba(0, 0, 0, 0.45);
+  --cover-65: rgba(0, 0, 0, 0.65);
+  --cover-80: rgba(0, 0, 0, 0.80);
+
+  /* ─────── Semantic accents ─────── */
+  --sale-red:        #F52A34;  /* SALE, price emphasis, error             */
+  --sale-red-strong: #E50012;  /* deeper red for headlines                */
+  --sale-red-soft:   #FFEEED;  /* error bg / tag bg                       */
+  --gold-700:        #B07604;  /* best-seller text                        */
+  --gold-500:        #E5B812;  /* best-seller fill                        */
+  --gold-100:        #FFFCE6;  /* best-seller bg surface                  */
+  --info-blue:       #005AF6;  /* link blue                               */
+  --success-green:   #008A30;  /* in-stock / success                      */
+  --warm-cream:      #F3EADB;  /* hero / brand-warm surfaces              */
+  --warm-peach:      #FFAB5F;  /* secondary illustrative accent           */
+
+  /* ─────── Semantic roles ─────── */
+  --fg-1: var(--gray-1000);
+  --fg-2: var(--gray-800);
+  --fg-3: var(--gray-700);
+  --fg-on-brand: var(--white);
+  --fg-link: var(--brand-700);
+  --bg-page: var(--white);
+  --bg-surface: var(--gray-100);
+  --bg-surface-alt: var(--gray-200);
+  --bg-brand: var(--brand-700);
+  --bg-brand-soft: var(--brand-100);
+  --border-1: var(--gray-300);
+  --border-2: var(--gray-400);
+  --border-strong: var(--gray-1000);
+
+  /* ─────── Brand gradients (from /Design-Library/color) ─────── */
+  --grad-brand: linear-gradient(180deg, #2E7677 0%, #1D5657 100%);
+  --grad-mint:  linear-gradient(180deg, #EBF7F5 20%, #C0DED8 100%);
+  --grad-cool:  linear-gradient(180deg, #22DCFD 0%, #1C91E2 50%, #5865B9 100%);
+  --grad-warm:  linear-gradient(180deg, #FBBCB1 0%, #F2B172 100%);
+  --grad-sun:   linear-gradient(180deg, #F9D6A4 0%, #FCB656 100%);
+
+  /* ─────── Typography ─────── */
+  /* CAGUUU's bilingual stack: native Hiragino on Apple, Noto Sans JP fallback;
+     SF Pro Text for Latin/numerals on Apple; Inter is the Google Fonts
+     substitute used in this design-system preview. Roboto for Android.       */
+  --font-jp:    "LINE Seed JP", "Hiragino Sans", "ヒラギノ角ゴシック",
+                "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  --font-latin: "ITC Avant Garde Gothic", "Avant Garde", "Futura",
+                -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans:  var(--font-jp);                /* default */
+  --font-display: var(--font-latin);           /* for the CAGUUU wordmark, prices, KPIs */
+  --font-mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* Type scale — direct from /Design-Library/Mobile-Typography */
+  --fs-9:   9px;
+  --fs-10: 10px;
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;  /* body default */
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-30: 30px;
+  --fs-32: 32px;
+  --fs-40: 40px;
+  --fs-48: 48px;
+  --fs-60: 60px;
+  --fs-72: 72px;
+
+  --lh-tight:   1.0;
+  --lh-snug:    1.2;
+  --lh-normal:  1.5;   /* body default in JP */
+  --lh-relaxed: 1.6;
+  --lh-loose:   1.75;
+
+  --fw-light:    300;
+  --fw-regular:  400;  /* Hiragino W3 / Noto Regular */
+  --fw-medium:   500;  /* W5 */
+  --fw-semibold: 600;  /* W6 */
+  --fw-bold:     700;  /* W7 */
+
+  /* ─────── Spacing scale ─────── */
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  --space-11: 64px;
+  --space-12: 80px;
+
+  /* ─────── Radii (Figma uses small radii: 2, 3, 5, 10, 100) ─────── */
+  --radius-xs: 2px;    /* tags, badges */
+  --radius-sm: 3px;    /* buttons (square variant) */
+  --radius-md: 5px;    /* cards (small) */
+  --radius-lg: 10px;   /* primary card */
+  --radius-xl: 20px;   /* hero card / sheet */
+  --radius-pill: 9999px;
+
+  /* ─────── Elevation ─────── */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.04);
+  --shadow-2: 0 4px 10px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-3: 0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 8px rgba(31,104,98,0.08);
+  --shadow-brand: 0 8px 24px rgba(31,104,98,0.20);
+
+  /* Layout */
+  --container-pc: 1440px;
+  --container-content: 1280px;
+  --container-sp: 375px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Semantic text styles — Mirror Figma's "Heading1…Label & Body" 11-row table
+   (Mobile-Typography). Mobile defaults; PC bumps roughly 1.25–1.5×.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.t-display, h1.display {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-60);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+}
+.t-h1, h1 {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-bold);    /* W6/W7 */
+  font-size: var(--fs-32);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+.t-h2, h2 {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-24);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+.t-h3, h3 {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-20);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+.t-h4, h4 {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-18);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+.t-label, .t-label-bold {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+}
+.t-body, p {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+}
+.t-body-sm {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-12);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+.t-caption {
+  font-family: var(--font-jp);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-10);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+.t-price {
+  font-family: var(--font-latin);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-20);
+  line-height: var(--lh-tight);
+  color: var(--sale-red-strong);
+  font-variant-numeric: tabular-nums;
+}
+.t-price-strikethrough {
+  font-family: var(--font-latin);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+}
+.t-mono { font-family: var(--font-mono); }
+
+/* The CAGUUU wordmark — straight uppercase, slightly loose tracking. */
+.t-wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-24);
+  letter-spacing: 0.08em;
+  color: var(--brand-700);
+  text-transform: uppercase;
+}
+
+/* Convenience body reset for previews */
+body.ds-preview {
+  margin: 0;
+  font-family: var(--font-jp);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+}
