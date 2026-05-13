@@ -98,6 +98,8 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({ register, setValue, 
         </div>
         <input 
           type="text" 
+          inputMode="numeric" 
+          pattern="[0-9]*"
           placeholder="1000001 (ハイフンなし)" 
           maxLength={8}
           {...register('customer.zipCode', { required: '郵便番号は必須です', minLength: { value: 7, message: '7桁で入力してください' } })} 
