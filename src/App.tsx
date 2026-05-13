@@ -27,13 +27,22 @@ function App() {
         address1: '',
         address2: ''
       },
-      products: [{ sku: '', quantity: 1, unpackingService: false, assemblyService: false }],
+      staffName: '',
+      discountRate: 0,
+      products: [{ sku: '', productName: '', variation: '', unitPrice: 0, quantity: 1, unpackingServiceCost: 0, assemblyServiceCost: 0 }],
+      summary: { subtotal: 0, discountAmount: 0, totalAmount: 0 },
       staffNote: ''
     }
   });
 
   // フォームのバリデーションが通ったら確認画面へ
-  const onToConfirm = () => {
+  const onToConfirm = (data: OrderData) => {
+    const products = data.products || [];
+    const subtotal = products.reduce((sum, p) => sum + ((p.unitPrice || 0) + (p.unpackingServiceCost || 0) + (p.assemblyServiceCost || 0)) * (p.quantity || 1), 0);
+    const discountAmount = Math.floor(subtotal * ((data.discountRate || 0) / 100));
+    const totalAmount = subtotal - discountAmount;
+    
+    setValue('summary', { subtotal, discountAmount, totalAmount });
     setStep('confirm');
     window.scrollTo(0, 0);
   };

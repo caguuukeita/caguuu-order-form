@@ -10,12 +10,22 @@ export interface OrderData {
     address1: string;
     address2: string;
   };
+  staffName: string;
+  discountRate: number;
   products: {
     sku: string;
+    productName: string;
+    variation: string;
+    unitPrice: number;
     quantity: number;
-    unpackingService: boolean;
-    assemblyService: boolean;
+    unpackingServiceCost: number;
+    assemblyServiceCost: number;
   }[];
+  summary: {
+    subtotal: number;
+    discountAmount: number;
+    totalAmount: number;
+  };
   staffNote: string;
 }
 

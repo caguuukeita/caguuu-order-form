@@ -10,6 +10,8 @@ interface ConfirmScreenProps {
 }
 
 export const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ data, register, onBack, isSubmitting }) => {
+  const formatCurrency = (num: number) => `¥${num.toLocaleString()}`;
+
   return (
     <div className="card">
       <h2 className="t-h2 section-title">入力内容の確認</h2>
@@ -32,21 +34,57 @@ export const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ data, register, on
       </div>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <h3 className="t-h3" style={{ borderBottom: '1px solid var(--border-1)', paddingBottom: '8px', marginBottom: '16px' }}>注文商品（Staff）</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '1px solid var(--border-1)', paddingBottom: '8px', marginBottom: '16px' }}>
+          <h3 className="t-h3" style={{ margin: 0 }}>注文商品（Staff）</h3>
+          <span className="t-caption" style={{ color: 'var(--fg-2)' }}>担当: {data.staffName}</span>
+        </div>
+        
         {data.products.map((p, i) => (
-          <div key={i} style={{ marginBottom: '12px', padding: '12px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-sm)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span className="t-label-bold">{p.sku}</span>
-              <span className="t-body">数量: {p.quantity}</span>
+          <div key={i} style={{ marginBottom: '12px', padding: '16px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-sm)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <div>
+                <span className="t-label-bold" style={{ display: 'block', fontSize: 'var(--fs-16)' }}>{p.productName || '商品名未入力'}</span>
+                <span className="t-caption" style={{ color: 'var(--fg-2)' }}>SKU: {p.sku} {p.variation ? ` / ${p.variation}` : ''}</span>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <span className="t-label-bold">{formatCurrency(p.unitPrice)}</span>
+                <span className="t-body" style={{ marginLeft: '8px' }}>× {p.quantity}</span>
+              </div>
             </div>
-            {(p.unpackingService || p.assemblyService) && (
-              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                {p.unpackingService && <span className="t-caption" style={{ backgroundColor: 'var(--brand-100)', color: 'var(--brand-700)', padding: '4px 8px', borderRadius: 'var(--radius-xs)' }}>開梱サービスあり</span>}
-                {p.assemblyService && <span className="t-caption" style={{ backgroundColor: 'var(--brand-100)', color: 'var(--brand-700)', padding: '4px 8px', borderRadius: 'var(--radius-xs)' }}>組み立てあり</span>}
+            
+            {(p.unpackingServiceCost > 0 || p.assemblyServiceCost > 0) && (
+              <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px dashed var(--border-2)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                {p.unpackingServiceCost > 0 && (
+                  <div className="t-caption" style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'var(--brand-100)', color: 'var(--brand-700)', padding: '4px 8px', borderRadius: 'var(--radius-xs)' }}>
+                    <span>開梱サービス</span>
+                    <span>{formatCurrency(p.unpackingServiceCost)}</span>
+                  </div>
+                )}
+                {p.assemblyServiceCost > 0 && (
+                  <div className="t-caption" style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'var(--brand-100)', color: 'var(--brand-700)', padding: '4px 8px', borderRadius: 'var(--radius-xs)' }}>
+                    <span>組み立てサービス</span>
+                    <span>{formatCurrency(p.assemblyServiceCost)}</span>
+                  </div>
+                )}
               </div>
             )}
           </div>
         ))}
+
+        <div style={{ marginTop: '24px', padding: '16px', backgroundColor: 'var(--bg-surface-alt)', borderRadius: 'var(--radius-md)' }}>
+          <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: '1fr auto', gap: '8px 16px', fontSize: 'var(--fs-16)' }}>
+            <dt style={{ color: 'var(--fg-2)' }}>小計</dt>
+            <dd style={{ margin: 0, textAlign: 'right' }}>{formatCurrency(data.summary.subtotal)}</dd>
+            
+            <dt style={{ color: 'var(--fg-2)' }}>割引額 ({data.discountRate}%)</dt>
+            <dd style={{ margin: 0, textAlign: 'right', color: 'var(--sale-red)' }}>-{formatCurrency(data.summary.discountAmount)}</dd>
+            
+            <div style={{ gridColumn: '1 / -1', height: '1px', backgroundColor: 'var(--border-2)', margin: '4px 0' }}></div>
+            
+            <dt className="t-label-bold" style={{ fontSize: 'var(--fs-18)' }}>決済金額</dt>
+            <dd className="t-label-bold" style={{ margin: 0, textAlign: 'right', fontSize: 'var(--fs-20)', color: 'var(--brand-700)' }}>{formatCurrency(data.summary.totalAmount)}</dd>
+          </dl>
+        </div>
       </div>
 
       <div style={{ marginBottom: 'var(--space-6)', padding: '16px', backgroundColor: 'var(--bg-surface-alt)', border: '1px solid var(--border-2)', borderRadius: 'var(--radius-md)' }}>
