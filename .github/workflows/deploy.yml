@@ -33,9 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build
-        env:
-          VITE_GAS_WEBHOOK_URL: ${{ secrets.VITE_GAS_WEBHOOK_URL }}
+        run: |
+          echo "VITE_GAS_WEBHOOK_URL=${{ secrets.VITE_GAS_WEBHOOK_URL }}" > .env
+          npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
