@@ -35,7 +35,6 @@ jobs:
       - name: Build
         run: |
           echo "VITE_GAS_WEBHOOK_URL=${{ secrets.VITE_GAS_WEBHOOK_URL }}" > .env
-          echo "VITE_MS_WEBHOOK_URL=${{ secrets.VITE_MS_WEBHOOK_URL }}" >> .env
           npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4

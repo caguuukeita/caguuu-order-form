@@ -32,72 +32,33 @@ export interface OrderData {
 const MS_WEBHOOK_URL = import.meta.env.VITE_MS_WEBHOOK_URL || '';
 
 export const submitOrder = async (data: OrderData) => {
-  if (!WEBHOOK_URL && !MS_WEBHOOK_URL) {
-    throw new Error('送信先のWebhook URLが設定されていません。');
+  if (!WEBHOOK_URL) {
+    throw new Error('VITE_GAS_WEBHOOK_URL is not set.');
   }
 
-  // Power Automate等でそのまま使えるよう、注文商品詳細のテキストを生成
-  const productsDetails = data.products.map(p => {
-    let parts = [];
-    if (p.productName) parts.push(`商品名: ${p.productName}`);
-    parts.push(`SKU: ${p.sku}`);
-    if (p.variation) parts.push(`バリエーション情報: ${p.variation}`);
-    if (p.unpackingServiceCost > 0) parts.push(`開梱費用: ${p.unpackingServiceCost}`);
-    if (p.assemblyServiceCost > 0) parts.push(`組立費用: ${p.assemblyServiceCost}`);
-    parts.push(`単価: ${p.unitPrice}`);
-    parts.push(`数量: ${p.quantity}`);
-    return parts.join('\\n');
-  }).join('\\n\\n');
+  // Power Automate用に追加していたフォーマット文字列は不要になるためPayloadの生成も元に戻します
+  // GAS側で整形するため、フロントエンドからは素のdataをそのまま送ります
+  
+  const response = await fetch(WEBHOOK_URL, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8', // CORS対策
+    },
+  });
 
-  const formattedProductsString = `スタッフ名: ${data.staffName || '未入力'}\\n${productsDetails}\\n小計: ${data.summary.subtotal}\\n割引額: ${data.summary.discountAmount}\\n決済金額: ${data.summary.totalAmount}`;
-
-  const payload = {
-    ...data,
-    formattedProducts: formattedProductsString,
-    timestamp: new Date().toISOString()
-  };
-
-  const requests = [];
-
-  if (WEBHOOK_URL) {
-    requests.push(
-      fetch(WEBHOOK_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8', // GASのCORS対策
-        },
-      })
-    );
+  if (!response.ok) {
+    let errorText = '';
+    try {
+      errorText = await response.text();
+    } catch (e) {}
+    throw new Error(`【Googleスプレッドシートへの送信失敗】ステータスコード: ${response.status} - 詳細: ${errorText}`);
   }
 
-  if (MS_WEBHOOK_URL) {
-    requests.push(
-      fetch(MS_WEBHOOK_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8', // CORS（OPTIONSリクエスト）回避のためtext/plainを使用
-        },
-      })
-    );
+  const result = await response.json();
+  if (!result.success) {
+    throw new Error(result.error || '送信に失敗しました');
   }
 
-  const responses = await Promise.all(requests);
-
-  for (let i = 0; i < responses.length; i++) {
-    const response = responses[i];
-    if (!response.ok) {
-      let errorText = '';
-      try {
-        errorText = await response.text();
-      } catch (e) {}
-      
-      const targetUrl = response.url.includes('google') ? 'Googleスプレッドシート(GAS)' : (response.url.includes('microsoft') || response.url.includes('azure') || response.url.includes('flow')) ? 'Microsoft Power Automate' : response.url;
-      
-      throw new Error(`【${targetUrl}への送信失敗】ステータスコード: ${response.status} - 詳細: ${errorText}`);
-    }
-  }
-
-  return { success: true };
+  return result;
 };
