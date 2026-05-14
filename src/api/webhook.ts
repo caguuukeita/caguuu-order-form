@@ -77,7 +77,7 @@ export const submitOrder = async (data: OrderData) => {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
-          'Content-Type': 'application/json', // Power Automateはapplication/jsonを受け付ける
+          'Content-Type': 'text/plain;charset=utf-8', // CORS（OPTIONSリクエスト）回避のためtext/plainを使用
         },
       })
     );
@@ -85,9 +85,17 @@ export const submitOrder = async (data: OrderData) => {
 
   const responses = await Promise.all(requests);
 
-  for (const response of responses) {
+  for (let i = 0; i < responses.length; i++) {
+    const response = responses[i];
     if (!response.ok) {
-      throw new Error('一部のデータ送信に失敗しました');
+      let errorText = '';
+      try {
+        errorText = await response.text();
+      } catch (e) {}
+      
+      const targetUrl = response.url.includes('google') ? 'Googleスプレッドシート(GAS)' : (response.url.includes('microsoft') || response.url.includes('azure') || response.url.includes('flow')) ? 'Microsoft Power Automate' : response.url;
+      
+      throw new Error(`【${targetUrl}への送信失敗】ステータスコード: ${response.status} - 詳細: ${errorText}`);
     }
   }
 
