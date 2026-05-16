@@ -15,6 +15,7 @@ function App() {
   const [step, setStep] = useState<'input' | 'confirm' | 'success'>('input');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [finalAmount, setFinalAmount] = useState<number | null>(null);
 
   const { register, handleSubmit, control, setValue, getValues, formState: { errors }, reset } = useForm<OrderData>({
     defaultValues: {
@@ -53,6 +54,7 @@ function App() {
     setErrorMsg('');
     try {
       await submitOrder(data);
+      setFinalAmount(data.summary.totalAmount);
       setStep('success');
       reset();
       window.scrollTo(0, 0);
@@ -71,9 +73,19 @@ function App() {
         <div className="card success-screen">
           <CheckCircle2 size={64} className="success-icon mx-auto" style={{ margin: '0 auto', display: 'block' }} />
           <h2 className="t-h2 success-title">ご注文の登録が完了しました</h2>
+          
+          {finalAmount !== null && (
+            <div style={{ backgroundColor: 'var(--bg-surface-alt)', padding: '24px', borderRadius: 'var(--radius-md)', margin: '24px 0', border: '1px solid var(--border-2)' }}>
+              <p className="t-label" style={{ color: 'var(--fg-2)', marginBottom: '8px' }}>ご決済金額（税込）</p>
+              <p className="t-h1" style={{ color: 'var(--brand-700)', fontSize: '32px', margin: 0 }}>
+                ¥{finalAmount.toLocaleString()}
+              </p>
+            </div>
+          )}
+
           <p className="t-body success-desc">スタッフが内容を確認いたします。</p>
           <button 
-            onClick={() => setStep('input')}
+            onClick={() => { setFinalAmount(null); setStep('input'); }}
             className="btn-primary"
             style={{ maxWidth: '300px', margin: '0 auto', display: 'block' }}
           >
