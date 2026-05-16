@@ -29,8 +29,6 @@ export interface OrderData {
   staffNote: string;
 }
 
-const MS_WEBHOOK_URL = import.meta.env.VITE_MS_WEBHOOK_URL || '';
-
 export const submitOrder = async (data: OrderData) => {
   if (!WEBHOOK_URL) {
     throw new Error('VITE_GAS_WEBHOOK_URL is not set.');
