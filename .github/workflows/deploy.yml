@@ -35,6 +35,7 @@ jobs:
       - name: Build
         run: |
           echo "VITE_GAS_WEBHOOK_URL=${{ secrets.VITE_GAS_WEBHOOK_URL }}" > .env
+          echo "VITE_CLOUDFLARE_WORKER_URL=${{ secrets.VITE_CLOUDFLARE_WORKER_URL }}" >> .env
           npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
