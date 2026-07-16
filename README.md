@@ -1,3 +1,6 @@
+# 店外催事にてレジ業務に使用するiPadなどで表示するフォーム
+## 本レポジトリに含まれるのは、フロントエンドのみであり、バックエンドは個人GmailアカウントのGoogle Spreadsheet上で管理されている。
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
